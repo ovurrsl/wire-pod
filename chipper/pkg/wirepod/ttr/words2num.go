@@ -87,7 +87,7 @@ func words2num(input string) string {
 		return "3600"
 	}
 
-	str_regex_time_pattern := `(\d+|\w+(?:-\w+)?)\s*(`+lcztn.GetText(lcztn.STR_MINUTE)+`|`+lcztn.GetText(lcztn.STR_SECOND)+`|`+lcztn.GetText(lcztn.STR_HOUR)+`)s?`
+	str_regex_time_pattern := `(\d+|\w+(?:[-\s]\w+)?)\s*(`+lcztn.GetText(lcztn.STR_MINUTE)+`|`+lcztn.GetText(lcztn.STR_SECOND)+`|`+lcztn.GetText(lcztn.STR_HOUR)+`)s?`
 
 	// timePattern := regexp.MustCompile(`(\d+|\w+(?:-\w+)?)\s*(minute|second|hour)s?`)
 	timePattern := regexp.MustCompile(str_regex_time_pattern)
@@ -122,15 +122,20 @@ func mapTextToNumber(text string) int {
 	if val, ok := textToNumber[text]; ok {
 		return val
 	}
-	parts := strings.Split(text, "-")
-	sum := 0
-	for _, part := range parts {
-		if val, ok := textToNumber[part]; ok {
-			sum += val
+	cleanText := strings.ReplaceAll(text, "-", " ")
+	parts := strings.Fields(cleanText)
+	if len(parts) > 1 {
+		sum := 0
+		for _, part := range parts {
+			if val, ok := textToNumber[part]; ok {
+				sum += val
+			}
+		}
+		if sum > 0 {
+			return sum
 		}
 	}
-	return sum
-
+	return 0
 }
 
 func initializeTextToNumberwithCurrentLocalization () {

@@ -8,6 +8,7 @@ import (
 )
 
 var NumbersEN_US []string = []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety", "hundred", "seconds", "minutes", "hours", "minute", "second", "hour"}
+var NumbersTR_TR []string = []string{"sıfır", "bir", "iki", "üç", "dört", "beş", "altı", "yedi", "sekiz", "dokuz", "on", "yirmi", "otuz", "kırk", "elli", "altmış", "yetmiş", "seksen", "doksan", "yüz", "saniye", "dakika", "saat"}
 
 func removeDuplicates(strings []string) []string {
 	occurred := map[string]bool{}
@@ -59,7 +60,11 @@ func GetGrammerList(lang string) string {
 		}
 	}
 	// add numbers
-	for _, wor := range NumbersEN_US {
+	numberList := NumbersEN_US
+	if lang == "tr-TR" || vars.APIConfig.STT.Language == "tr-TR" {
+		numberList = NumbersTR_TR
+	}
+	for _, wor := range numberList {
 		found := model.FindWord(wor)
 		if found != -1 {
 			wordsList = append(wordsList, wor)

@@ -1,218 +1,712 @@
 [
   {
     "name": "intent_names_username_extend",
-    "keyphrases": ["adım", "yerliyim", "isimler", "adımın", "benim adım"]
+    "keyphrases": [
+      "benim adım",
+      "adım",
+      "ismim",
+      "benim ismim",
+      "bana de",
+      "adımın"
+    ],
+    "requiresexact": false
   },
   {
     "name": "intent_weather_extend",
-    "keyphrases": ["hava durumu", "ister", "öteki", "su", "başka", "hava tahmini", "yarın hava", "hava nasıl"]
+    "keyphrases": [
+      "hava durumu",
+      "hava nasıl",
+      "bugün hava nasıl",
+      "yarın hava nasıl",
+      "hava tahmini",
+      "hava durumu nedir",
+      "havalar nasıl"
+    ],
+    "requiresexact": false
   },
   {
     "name": "intent_names_ask",
-    "keyphrases": ["benim adım", "kimim", "ben kimim"]
+    "keyphrases": [
+      "ben kimim",
+      "benim adım ne",
+      "benim ismim ne",
+      "beni tanıyor musun",
+      "adımı biliyor musun",
+      "beni tanıdın mı",
+      "ismimi biliyor musun"
+    ],
+    "requiresexact": false
   },
   {
     "name": "intent_imperative_eyecolor",
-    "keyphrases": ["göz rengi", "renk", "onu çağırıyorum", "onu takip ediyorum", "irenk", "ekse", "eriye", "ikan", "agrikola", "değiştir", "oraküler", "oracle", "göz rengini şuna ayarla"]
+    "keyphrases": [
+      "göz rengi",
+      "göz rengini değiştir",
+      "gözlerini yap",
+      "göz rengini ayarla",
+      "göz rengini mavi yap",
+      "göz rengini yeşil yap",
+      "göz rengini sarı yap",
+      "göz rengini mor yap",
+      "göz rengini turuncu yap",
+      "göz rengini turkuaz yap",
+      "göz rengi değiştir",
+      "gözlerini değiştir"
+    ],
+    "requiresexact": false
   },
   {
     "name": "intent_character_age",
-    "keyphrases": ["daha yaşlı", "kaç yaşında", "sen kaç yaşındasın", "yaşlı mısın", "senin yaşın kaç"]
+    "keyphrases": [
+      "kaç yaşındasın",
+      "sen kaç yaşındasın",
+      "senin yaşın kaç",
+      "ne zaman doğdun",
+      "yaşın kaç",
+      "doğum günün ne zaman"
+    ],
+    "requiresexact": false
   },
   {
     "name": "intent_explore_start",
-    "keyphrases": ["başla", "keşfet", "akıyor", "terzilik", "kodlama", "keşif", "örnek almak", "keşfetmeye başla"]
+    "keyphrases": [
+      "keşfetmeye başla",
+      "etrafı keşfet",
+      "odayı keşfet",
+      "keşfet",
+      "keşfe çık",
+      "gezin",
+      "dolaş",
+      "odada dolaş",
+      "etrafı gez"
+    ],
+    "requiresexact": false
   },
   {
     "name": "intent_system_charger",
-    "keyphrases": ["şarj", "ev", "eve git", "kilise", "şarj cihazını bul", "şarj aleti"]
+    "keyphrases": [
+      "şarja git",
+      "şarj ol",
+      "yuvan git",
+      "eve git",
+      "şarjına dön",
+      "şarj aletine git",
+      "şarj ünitesine git",
+      "şarj olmaya git",
+      "şarj cihazına git",
+      "şarjına git",
+      "şarj cihazını bul",
+      "şarj aleti",
+      "şarj ünitesi",
+      "yuva",
+      "evine git"
+    ],
+    "requiresexact": false
   },
   {
     "name": "intent_system_sleep",
-    "keyphrases": ["kaç", "uyu", "koyun", "uyumaya git"]
+    "keyphrases": [
+      "uyu",
+      "uykuya dal",
+      "uyumaya git",
+      "dinlen",
+      "yat",
+      "uyu artık",
+      "uyku modu",
+      "iyi uykular",
+      "uyku zamanı"
+    ],
+    "requiresexact": false
+  },
+  {
+    "name": "intent_system_noaudio",
+    "keyphrases": [
+      "[sessiz]",
+      "[ses yok]",
+      "[blank_audio]"
+    ],
+    "requiresexact": true
   },
   {
     "name": "intent_greeting_goodmorning",
-    "keyphrases": ["sabah", "yas", "ayışığı", "sıkıldım", "öğleden sonra", "öğle sonrası", "kimi takip ettiğim", "günaydın"]
+    "keyphrases": [
+      "günaydın",
+      "hayırlı sabahlar",
+      "iyi sabahlar",
+      "tünaydın",
+      "sabahlar hayır olsun"
+    ],
+    "requiresexact": false
   },
   {
     "name": "intent_greeting_goodnight",
-    "keyphrases": ["gece", "güç", "iyi geceler"]
+    "keyphrases": [
+      "iyi geceler",
+      "tatlı rüyalar",
+      "iyi uykular",
+      "hayırlı geceler",
+      "geceler iyi olsun"
+    ],
+    "requiresexact": false
   },
   {
     "name": "intent_greeting_goodbye",
-    "keyphrases": ["güle güle", "iyi yolculuklar", "iyi alışverişler", "hoşça kal"]
+    "keyphrases": [
+      "güle güle",
+      "hoşça kal",
+      "görüşürüz",
+      "kendine iyi bak",
+      "bay bay",
+      "hoşçakal",
+      "sonra görüşürüz"
+    ],
+    "requiresexact": false
   },
   {
     "name": "intent_seasonal_happynewyear",
-    "keyphrases": ["havai fişek", "yeni yıl", "mutlu yıllar", "mutlu ol", "olmuş", "şimdi seni tanıyorum", "yıl yok", "ani", "asla tanımadım", "hobhouse", "bennie"]
+    "keyphrases": [
+      "mutlu yıllar",
+      "yeni yılın kutlu olsun",
+      "yeni yıl",
+      "iyi seneler",
+      "kutlu olsun yeni yıl"
+    ],
+    "requiresexact": false
   },
   {
     "name": "intent_seasonal_happyholidays",
-    "keyphrases": ["o tutar", "noel", "işte bu", "tatil"]
+    "keyphrases": [
+      "iyi bayramlar",
+      "mutlu tatiller",
+      "bayramın kutlu olsun",
+      "mutlu bayramlar",
+      "iyi tatiller"
+    ],
+    "requiresexact": false
   },
   {
     "name": "intent_amazon_signin",
-    "keyphrases": ["zekada", "elekta'da güzel", "aleks'te", "aleksi anlama", "elekt'te", "alekse", "angelica'da", "alexa'ya kaydol", "alexa'ya giriş yap"]
+    "keyphrases": [
+      "alexa'ya giriş yap",
+      "alexa'ya bağlan",
+      "alexa oturumu aç",
+      "alexa giriş",
+      "alexa'yı başlat"
+    ],
+    "requiresexact": false
   },
   {
     "name": "intent_amazon_signin",
-    "keyphrases": ["çıkışta", "elea'yı şimdi biliyorum", "alexa'dan çık", "aleden çık"]
+    "keyphrases": [
+      "alexa'dan çık",
+      "alexa oturumunu kapat",
+      "alexa bağlantısını kes",
+      "alexa kapat",
+      "alexa'yı kapat"
+    ],
+    "requiresexact": false
   },
   {
     "name": "intent_imperative_forward",
-    "keyphrases": ["ileri", "koru", "kelime", "ileri hareket et", "ileriye"]
+    "keyphrases": [
+      "ileri git",
+      "ileri",
+      "düz git",
+      "ilerle",
+      "öne git",
+      "öne doğru git",
+      "ileriye doğru",
+      "ileriye git"
+    ],
+    "requiresexact": false
   },
   {
     "name": "intent_imperative_turnaround",
-    "keyphrases": ["etrafında", "yüz seksen", "bir yediği", "etrafını dön"]
+    "keyphrases": [
+      "arkana dön",
+      "etrafında dön",
+      "geri dön",
+      "yüz seksen derece dön",
+      "arkaya dön",
+      "tersine dön",
+      "dön arkanı"
+    ],
+    "requiresexact": false
   },
   {
     "name": "intent_imperative_turnleft",
-    "keyphrases": ["sol dön", "sol taraf", "soldan git", "sol", "ernest"]
+    "keyphrases": [
+      "sola dön",
+      "sol",
+      "sola",
+      "sol tarafa dön",
+      "sola doğru dön",
+      "sol yap"
+    ],
+    "requiresexact": false
   },
   {
     "name": "intent_imperative_turnright",
-    "keyphrases": ["sağ dön", "sağa git", "sağ taraf", "ernie", "kredi", "sağdan"]
+    "keyphrases": [
+      "sağa dön",
+      "sağ",
+      "sağa",
+      "sağ tarafa dön",
+      "sağa doğru dön",
+      "sağ yap"
+    ],
+    "requiresexact": false
   },
   {
     "name": "intent_play_rollcube",
-    "keyphrases": ["küpü yuvarla", "küpünü yuvarla", "hepsini yuvarla", "insanı yuvarla", "yorke", "başını tut", "küpünü yuvarla"]
+    "keyphrases": [
+      "küpünü yuvarla",
+      "küpü yuvarla",
+      "küpünü devir",
+      "küpü çevir",
+      "küp yuvarla",
+      "küpü ters çevir"
+    ],
+    "requiresexact": false
   },
   {
     "name": "intent_play_popawheelie",
-    "keyphrases": ["tekerlek üstünde dur", "polwhele", "olwen", "i wieland", "tekerlek yap", "kapı taşı", "tibetli", "powell", "welst", "bir tekerlek", "willie", "gerçekten", "o' billy", "tekerlek üstünde durma", "tekerlek standı yap"]
+    "keyphrases": [
+      "tekerlek kaldır",
+      "ön kaldır",
+      "şaha kalk",
+      "tekerleklerinin üstüne kalk",
+      "iki teker üstünde dur",
+      "şaha kalk bakalım",
+      "önünü kaldır"
+    ],
+    "requiresexact": false
   },
   {
     "name": "intent_play_fistbump",
-    "keyphrases": ["bu pompası", "bu pompa", "yumruk", "yumrukla", "yumruksa", "bu kitap", "pisto", "pompayla", "fison", "ilk", "beşinci", "on beşte", "bump var", "bilgelik", "bu bu", "yumruk bombası", "yumruk topu", "bu top", "sistem", "yumruklama"]
+    "keyphrases": [
+      "yumruk çak",
+      "çak bir beşlik",
+      "yumruk tokuştur",
+      "yumruk yap",
+      "çak",
+      "yumruk",
+      "yumruklaşalım",
+      "beşlik çak"
+    ],
+    "requiresexact": false
   },
   {
     "name": "intent_play_blackjack",
-    "keyphrases": ["siyah", "kartlar", "oyun", "blackjack oyna"]
+    "keyphrases": [
+      "blackjack oyna",
+      "kart oyunu oyna",
+      "yirmi bir oyna",
+      "kart oyna",
+      "blackjack",
+      "yirmibir"
+    ],
+    "requiresexact": false
   },
   {
     "name": "intent_imperative_affirmative",
-    "keyphrases": ["evet", "doğru", "tabii"]
+    "keyphrases": [
+      "evet",
+      "tamam",
+      "olur",
+      "kesinlikle",
+      "doğru",
+      "aynen",
+      "tabii ki",
+      "tabii",
+      "onaylıyorum"
+    ],
+    "requiresexact": false
   },
   {
     "name": "intent_imperative_negative",
-    "keyphrases": ["hayır", "yapma"]
+    "keyphrases": [
+      "hayır",
+      "istemiyorum",
+      "yapma",
+      "olmaz",
+      "hayır teşekkürler",
+      "yok",
+      "asla"
+    ],
+    "requiresexact": true
   },
   {
     "name": "intent_photo_take_extend",
-    "keyphrases": ["fotoğraf", "foto", "selby", "yakala", "resim", "bana bir fotoğraf çek"]
+    "keyphrases": [
+      "fotoğraf çek",
+      "resmimi çek",
+      "fotoğrafımı çek",
+      "foto çek",
+      "selfie çek",
+      "bana fotoğraf çek",
+      "resim çek",
+      "fotoğraf al"
+    ],
+    "requiresexact": false
   },
   {
     "name": "intent_imperative_praise",
-    "keyphrases": ["iyi", "harika", "ayrıca", "bazıları", "onlardan", "savaş", "t rob", "ro", "şaşırtıcı", "woodcourt", "iyi robot"]
+    "keyphrases": [
+      "harikasın",
+      "iyi robot",
+      "aferin",
+      "süpersin",
+      "tebrikler",
+      "çok iyisin",
+      "muhteşemsin",
+      "bravo",
+      "çok akıllısın",
+      "harika bir robotsun",
+      "aferin sana"
+    ],
+    "requiresexact": false
   },
   {
     "name": "intent_imperative_abuse",
-    "keyphrases": ["kötü", "o ro", "ad ro", "kök", "nefret", "berbat", "kötü robot"]
+    "keyphrases": [
+      "kötü robot",
+      "seni sevmiyorum",
+      "yaramaz robot",
+      "kötüsün",
+      "berbatsın",
+      "pis robot",
+      "aptal robot",
+      "yaramaz",
+      "terbiyesiz"
+    ],
+    "requiresexact": false
   },
   {
     "name": "intent_imperative_apologize",
-    "keyphrases": ["üzgünüm", "özür dilerim", "özür dile", "tory", "boşver", "aklımdan çıkmış", "ben özür dilerim"]
+    "keyphrases": [
+      "özür dilerim",
+      "affedersin",
+      "kusura bakma",
+      "özür",
+      "pardon",
+      "affet beni",
+      "özür dileriz"
+    ],
+    "requiresexact": false
   },
   {
     "name": "intent_imperative_backup",
-    "keyphrases": ["geri", "geri çekil", "geriye"]
+    "keyphrases": [
+      "geri git",
+      "geri çekil",
+      "geriye git",
+      "arka arkaya git",
+      "geri gel",
+      "gerile",
+      "arkaya doğru git"
+    ],
+    "requiresexact": false
   },
   {
     "name": "intent_imperative_volumedown",
-    "keyphrases": ["sesini kıs", "ses kıs", "sesi kıs", "sesi kısın", "daha sessiz", "sesi kıs"]
+    "keyphrases": [
+      "sesini kıs",
+      "sesi kıs",
+      "daha sessiz",
+      "ses kıs",
+      "sesini alçalt",
+      "biraz kıs",
+      "sesi alçalt",
+      "sesini azalt"
+    ],
+    "requiresexact": false
   },
   {
     "name": "intent_imperative_volumeup",
-    "keyphrases": ["sesini aç", "ses aç", "sesi aç", "sesi yükselt", "daha yüksek"]
+    "keyphrases": [
+      "sesini aç",
+      "sesi aç",
+      "daha yüksek",
+      "ses aç",
+      "sesini yükselt",
+      "biraz aç",
+      "sesi artır",
+      "sesini artır"
+    ],
+    "requiresexact": false
   },
   {
     "name": "intent_imperative_lookatme",
-    "keyphrases": ["bak", "bana bak"]
+    "keyphrases": [
+      "bana bak",
+      "yüzüme bak",
+      "buraya bak",
+      "gözlerime bak",
+      "beni gör"
+    ],
+    "requiresexact": false
   },
   {
     "name": "intent_imperative_volumelevel_extend",
-    "keyphrases": ["sesini", "ses", "ses seviyesi"]
+    "keyphrases": [
+      "ses seviyesi",
+      "ses düzeyi",
+      "ses",
+      "ses ayarı",
+      "ses şiddeti"
+    ],
+    "requiresexact": false
   },
   {
     "name": "intent_imperative_shutup",
-    "keyphrases": ["sus"]
+    "keyphrases": [
+      "sus",
+      "sessiz ol",
+      "kes sesini",
+      "sesini kes",
+      "çeneni kapa",
+      "kapa çeneni",
+      "sus artık"
+    ],
+    "requiresexact": false
   },
   {
     "name": "intent_greeting_hello",
-    "keyphrases": ["merhaba", "varsın", "bizim", "yüksek", "aşağı", "küçük", "takip", "senin için", "uzak sen", "sen hakkında nasıl", "nasılsın", "düşük", "tuvalet"]
+    "keyphrases": [
+      "merhaba",
+      "selam",
+      "nasılsın",
+      "günaydın",
+      "hey vector",
+      "merhaba vector",
+      "selam vector",
+      "nasılsın vector",
+      "selamlar"
+    ],
+    "requiresexact": false
   },
   {
     "name": "intent_imperative_come",
-    "keyphrases": ["gel", "bana", "buraya gel"]
+    "keyphrases": [
+      "bana gel",
+      "buraya gel",
+      "yanıma gel",
+      "bana doğru gel",
+      "yaklaş",
+      "buraya yaklaş"
+    ],
+    "requiresexact": false
   },
   {
     "name": "intent_imperative_love",
-    "keyphrases": ["sevgi", "güvercin", "seni seviyorum"]
+    "keyphrases": [
+      "seni seviyorum",
+      "seni çok seviyorum",
+      "canım benim",
+      "seni seviyoruz",
+      "canımsın",
+      "tatlı robotum"
+    ],
+    "requiresexact": false
   },
   {
     "name": "intent_knowledge_promptquestion",
-    "keyphrases": ["soru", "weston", "bir sorum var"]
+    "keyphrases": [
+      "bir sorum var",
+      "soru sor",
+      "konuşalım",
+      "sohbet edelim",
+      "sana bir sorum var",
+      "bir şey soracağım",
+      "sorum var",
+      "soru sormak istiyorum"
+    ],
+    "requiresexact": false
   },
   {
     "name": "intent_clock_checktimer",
-    "keyphrases": ["zamanlayıcıyı kontrol et", "zamanlayıcıyı kontrol et", "zamanlayıcıyı kontrol et", "zamanı kontrol et", "zamanı kontrol et", "zamanı ondan kontrol et", "zamanlayıcıyı kontrol ettim", "zamanı ondan kontrol ettim", "zamanı ondan kontrol ettim"]
+    "keyphrases": [
+      "zamanlayıcıyı kontrol et",
+      "zamanlayıcı ne durumda",
+      "kalan süre",
+      "ne kadar kaldı",
+      "sayaç ne durumda",
+      "zamanlayıcıda kaç dakika kaldı",
+      "kalan zaman"
+    ],
+    "requiresexact": false
   },
   {
     "name": "intent_global_stop_extend",
-    "keyphrases": ["zamanlayıcıyı durdur", "zamanlayıcı durdur", "iptal et", "zamanlayıcıyı iptal et", "saati durdur", "dur be", "durdu t", "durdu be", "durdu", "durdur"]
+    "keyphrases": [
+      "durdur",
+      "zamanlayıcıyı durdur",
+      "iptal et",
+      "zamanlayıcıyı iptal et",
+      "alarmı kapat",
+      "dur",
+      "kes",
+      "durdur zamanlayıcıyı",
+      "sayacı durdur"
+    ],
+    "requiresexact": false
   },
   {
     "name": "intent_clock_settimer_extend",
-    "keyphrases": ["zamanlayıcı", "için zaman", "için zamanı", "ya da zaman", "zamanın", "bir zamanlayıcı ayarla"]
+    "keyphrases": [
+      "zamanlayıcı ayarla",
+      "zamanlayıcı kur",
+      "alarm kur",
+      "sayaç kur",
+      "dakika zamanlayıcı",
+      "saniye zamanlayıcı",
+      "için zamanlayıcı kur",
+      "bir zamanlayıcı ayarla",
+      "zamanlayıcı başlat"
+    ],
+    "requiresexact": false
   },
   {
     "name": "intent_clock_time",
-    "keyphrases": ["saat kaç", "zaman", "hangi saat", "saat", "saat kaç"]
+    "keyphrases": [
+      "saat kaç",
+      "saat kaç oldu",
+      "saati söyle",
+      "şu an saat kaç",
+      "zaman nedir",
+      "saat kaç acaba",
+      "saati göster"
+    ],
+    "requiresexact": false
   },
   {
     "name": "intent_imperative_quiet",
-    "keyphrases": ["sessiz", "dur", "sessiz ol"]
+    "keyphrases": [
+      "sessiz ol",
+      "dur",
+      "sakin ol",
+      "ses çıkarma",
+      "sessiz kal",
+      "çıt çıkarma"
+    ],
+    "requiresexact": false
   },
   {
     "name": "intent_imperative_dance",
-    "keyphrases": ["dans", "dans et", "dans et", "ritme dans et", "ritim", "müziğe dans et"]
+    "keyphrases": [
+      "dans et",
+      "müzikle dans et",
+      "ritme uy",
+      "oyna",
+      "dans",
+      "müzikte oyna",
+      "hareket et dans et"
+    ],
+    "requiresexact": false
   },
   {
     "name": "intent_play_pickupcube",
-    "keyphrases": ["kaldır", "küpü kaldır"]
+    "keyphrases": [
+      "küpü kaldır",
+      "küpünü kaldır",
+      "küpü tut",
+      "küpünü tut",
+      "küpünü havaya kaldır",
+      "küpü yakala"
+    ],
+    "requiresexact": false
   },
   {
     "name": "intent_imperative_fetchcube",
-    "keyphrases": ["küpünü getir", "küpü getir", "küpü getir", "bana getir", "bana küpünü getir"]
+    "keyphrases": [
+      "küpünü getir",
+      "küpü getir",
+      "bana küpünü getir",
+      "küpü bana getir",
+      "küpünü al gel"
+    ],
+    "requiresexact": false
   },
   {
     "name": "intent_imperative_findcube",
-    "keyphrases": ["küpün", "küp", "küpünü bul"]
+    "keyphrases": [
+      "küpünü bul",
+      "küpü bul",
+      "küp nerede",
+      "küpünü ara",
+      "küpü ara",
+      "nerede küpün"
+    ],
+    "requiresexact": false
   },
   {
     "name": "intent_play_anytrick",
-    "keyphrases": ["numara", "havalı bir şey", "havalı bir şey", "bir numara yap"]
+    "keyphrases": [
+      "bir numara yap",
+      "numara yap",
+      "havalı bir şey yap",
+      "hünerini göster",
+      "bir hüner yap",
+      "marifetini göster",
+      "bir marifet yap"
+    ],
+    "requiresexact": false
   },
   {
     "name": "intent_message_recordmessage_extend",
-    "keyphrases": ["kaydet"]
+    "keyphrases": [
+      "mesaj kaydet",
+      "kaydet",
+      "ses kaydet",
+      "sesli mesaj kaydet"
+    ],
+    "requiresexact": false
   },
   {
     "name": "intent_message_playmessage_extend",
-    "keyphrases": ["mesajı oynat", "yöntemi oynat", "bir mesaj oynat", "bir yöntem oynat"]
+    "keyphrases": [
+      "mesajı çal",
+      "mesajı oynat",
+      "mesajı oku",
+      "mesaj dinle",
+      "kaydı çal",
+      "kaydedilen mesajı oku"
+    ],
+    "requiresexact": false
   },
   {
     "name": "intent_blackjack_hit",
-    "keyphrases": ["vur"]
+    "keyphrases": [
+      "kart ver",
+      "çek",
+      "kart çek",
+      "bir kart daha",
+      "ver",
+      "kart"
+    ],
+    "requiresexact": false
   },
   {
     "name": "intent_blackjack_stand",
-    "keyphrases": ["dur", "stan"]
+    "keyphrases": [
+      "dur",
+      "yeter",
+      "pas",
+      "kalsın",
+      "bekle"
+    ],
+    "requiresexact": false
   },
   {
     "name": "intent_play_keepaway",
-    "keyphrases": ["uzak tut", "uzak dur", "uzak tutma oyunu oyna"]
+    "keyphrases": [
+      "top kaçırma oyna",
+      "kaçırma oyunu oyna",
+      "yakalamaç oyna",
+      "kaçırma oyunu",
+      "oyun oyna kaçırma"
+    ],
+    "requiresexact": false
   }
 ]
