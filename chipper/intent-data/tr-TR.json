@@ -1,5 +1,18 @@
 [
   {
+    "name": "intent_names_ask",
+    "keyphrases": [
+      "ben kimim",
+      "benim adım ne",
+      "benim ismim ne",
+      "beni tanıyor musun",
+      "adımı biliyor musun",
+      "beni tanıdın mı",
+      "ismimi biliyor musun"
+    ],
+    "requiresexact": false
+  },
+  {
     "name": "intent_names_username_extend",
     "keyphrases": [
       "benim adım",
@@ -25,19 +38,6 @@
     "requiresexact": false
   },
   {
-    "name": "intent_names_ask",
-    "keyphrases": [
-      "ben kimim",
-      "benim adım ne",
-      "benim ismim ne",
-      "beni tanıyor musun",
-      "adımı biliyor musun",
-      "beni tanıdın mı",
-      "ismimi biliyor musun"
-    ],
-    "requiresexact": false
-  },
-  {
     "name": "intent_imperative_eyecolor",
     "keyphrases": [
       "göz rengi",
@@ -51,7 +51,8 @@
       "göz rengini turuncu yap",
       "göz rengini turkuaz yap",
       "göz rengi değiştir",
-      "gözlerini değiştir"
+      "gözlerini değiştir",
+      "gözlerini"
     ],
     "requiresexact": false
   },
@@ -210,7 +211,6 @@
     "name": "intent_imperative_forward",
     "keyphrases": [
       "ileri git",
-      "ileri",
       "düz git",
       "ilerle",
       "öne git",
@@ -432,7 +432,8 @@
       "sesini yükselt",
       "biraz aç",
       "sesi artır",
-      "sesini artır"
+      "sesini artır",
+      "sesi yükselt"
     ],
     "requiresexact": false
   },
@@ -452,7 +453,6 @@
     "keyphrases": [
       "ses seviyesi",
       "ses düzeyi",
-      "ses",
       "ses ayarı",
       "ses şiddeti"
     ],
@@ -462,7 +462,6 @@
     "name": "intent_imperative_shutup",
     "keyphrases": [
       "sus",
-      "sessiz ol",
       "kes sesini",
       "sesini kes",
       "çeneni kapa",
@@ -598,10 +597,10 @@
       "dans et",
       "müzikle dans et",
       "ritme uy",
-      "oyna",
       "dans",
       "müzikte oyna",
-      "hareket et dans et"
+      "hareket et dans et",
+      "dans oyna"
     ],
     "requiresexact": false
   },
