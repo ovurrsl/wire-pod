@@ -242,6 +242,12 @@ function updateWeatherAPI() {
     });
 }
 
+function checkTTS() {
+  const provider = getE("ttsProvider") ? getE("ttsProvider").value : "";
+  if (getE("googleTTSInput")) getE("googleTTSInput").style.display = (provider === "google") ? "block" : "none";
+  if (getE("customTTSInput")) getE("customTTSInput").style.display = (provider === "custom") ? "block" : "none";
+}
+
 function checkKG() {
   const provider = getE("kgProvider").value;
   const elements = [
@@ -329,6 +335,13 @@ function sendKGAPIKey() {
     data.enable = false;
   }
 
+  data.tts_provider = getE("ttsProvider") ? getE("ttsProvider").value : "";
+  if (data.tts_provider === "google") {
+    data.tts_voice = getE("googleTTSVoice") ? getE("googleTTSVoice").value : "tr-TR-Standard-A";
+  } else if (data.tts_provider === "custom") {
+    data.tts_endpoint = getE("customTTSEndpoint") ? getE("customTTSEndpoint").value : "";
+  }
+
   fetch("/api/set_kg_api", {
     method: "POST",
     headers: {
@@ -386,6 +399,16 @@ function updateKGAPI() {
         getE("houndID").value = data.id;
         getE("intentyes").checked = data.intentgraph
       }
+      if (data.tts_provider && getE("ttsProvider")) {
+        getE("ttsProvider").value = data.tts_provider;
+      }
+      if (data.tts_voice && getE("googleTTSVoice")) {
+        getE("googleTTSVoice").value = data.tts_voice;
+      }
+      if (data.tts_endpoint && getE("customTTSEndpoint")) {
+        getE("customTTSEndpoint").value = data.tts_endpoint;
+      }
+      checkTTS();
       checkKG();
     });
 }

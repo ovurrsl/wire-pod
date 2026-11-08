@@ -36,6 +36,9 @@ type apiConfig struct {
 		Endpoint               string  `json:"endpoint"`
 		TopP                   float32 `json:"top_p"`
 		Temperature            float32 `json:"temp"`
+		TTSProvider            string  `json:"tts_provider"`
+		TTSVoice               string  `json:"tts_voice"`
+		TTSEndpoint            string  `json:"tts_endpoint"`
 	} `json:"knowledge"`
 	STT struct {
 		Service  string `json:"provider"`

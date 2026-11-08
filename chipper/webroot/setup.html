@@ -153,6 +153,38 @@
               <input type="text" name="customAIPrompt" id="customAIPrompt" /><br />
             </span>
 
+            <div id="ttsSettings" style="margin-top: 15px; border-top: 1px dashed #ccc; padding-top: 10px;">
+              <label for="ttsProvider">Text-to-Speech (TTS) Voice Engine:</label>
+              <select name="ttsProvider" id="ttsProvider" onchange="checkTTS()">
+                <option value="" selected>Auto / Default</option>
+                <option value="google">Google Cloud TTS (Free with Gemini Key - Best for Turkish)</option>
+                <option value="openai">OpenAI TTS</option>
+                <option value="custom">Custom Endpoint (Piper / Local TTS)</option>
+                <option value="robot">Vector Hardware Voice (English Only)</option>
+              </select><br />
+
+              <span id="googleTTSInput" style="display: none;">
+                <label for="googleTTSVoice">Google TTS Voice (Turkish / Multi-language):</label>
+                <select name="googleTTSVoice" id="googleTTSVoice">
+                  <option value="tr-TR-Standard-A" selected>tr-TR-Standard-A (Turkish Kadın / Female)</option>
+                  <option value="tr-TR-Standard-B">tr-TR-Standard-B (Turkish Erkek / Male)</option>
+                  <option value="tr-TR-Standard-C">tr-TR-Standard-C (Turkish Kadın / Female)</option>
+                  <option value="tr-TR-Standard-D">tr-TR-Standard-D (Turkish Kadın / Female)</option>
+                  <option value="tr-TR-Standard-E">tr-TR-Standard-E (Turkish Erkek / Male)</option>
+                  <option value="tr-TR-Wavenet-A">tr-TR-Wavenet-A (Turkish Kadın / Female)</option>
+                  <option value="tr-TR-Wavenet-B">tr-TR-Wavenet-B (Turkish Erkek / Male)</option>
+                  <option value="tr-TR-Wavenet-C">tr-TR-Wavenet-C (Turkish Kadın / Female)</option>
+                  <option value="tr-TR-Wavenet-D">tr-TR-Wavenet-D (Turkish Kadın / Female)</option>
+                  <option value="tr-TR-Wavenet-E">tr-TR-Wavenet-E (Turkish Erkek / Male)</option>
+                </select><br />
+              </span>
+
+              <span id="customTTSInput" style="display: none;">
+                <label for="customTTSEndpoint">Custom TTS Endpoint URL:</label>
+                <input type="text" name="customTTSEndpoint" id="customTTSEndpoint" placeholder="http://192.168.1.xxx:8000/v1" /><br />
+              </span>
+            </div>
+
             <div style="text-align: left;">
               <span id="intentGraphInput" style="display: none;">
                 <input type="checkbox" id="intentyes" name="intentgselect" onclick="checkKG()" />

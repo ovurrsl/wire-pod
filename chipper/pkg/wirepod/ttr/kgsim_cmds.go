@@ -1,11 +1,14 @@
 package wirepod_ttr
 
 import (
+	"bytes"
 	"context"
 	"encoding/base64"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
+	"net/http"
 	"os"
 	"strings"
 	"time"
@@ -285,15 +288,211 @@ func DoPlaySound(sound string, robot *vector.Vector) error {
 	return nil
 }
 
-func DoSayText(input string, robot *vector.Vector) error {
+type googleTTSRequest struct {
+	Input struct {
+		Text string `json:"text"`
+	} `json:"input"`
+	Voice struct {
+		LanguageCode string `json:"languageCode"`
+		Name         string `json:"name,omitempty"`
+	} `json:"voice"`
+	AudioConfig struct {
+		AudioEncoding   string  `json:"audioEncoding"`
+		SampleRateHertz int     `json:"sampleRateHertz"`
+		SpeakingRate    float64 `json:"speakingRate,omitempty"`
+	} `json:"audioConfig"`
+}
 
-	// just before vector speaks
-	removeSpecialCharacters(input)
+type googleTTSResponse struct {
+	AudioContent string `json:"audioContent"`
+	Error        *struct {
+		Code    int    `json:"code"`
+		Message string `json:"message"`
+	} `json:"error,omitempty"`
+}
 
-	if (vars.APIConfig.STT.Language != "en-US" && vars.APIConfig.Knowledge.Provider == "openai") || vars.APIConfig.Knowledge.OpenAIVoiceWithEnglish {
-		err := DoSayText_OpenAI(robot, input)
+func StreamAudioChunksToVector(robot *vector.Vector, audioChunks [][]byte) error {
+	if len(audioChunks) == 0 {
+		return nil
+	}
+	vclient, err := robot.Conn.ExternalAudioStreamPlayback(context.Background())
+	if err != nil {
+		logger.Println("ExternalAudioStreamPlayback error:", err)
 		return err
 	}
+	err = vclient.Send(&vectorpb.ExternalAudioStreamRequest{
+		AudioRequestType: &vectorpb.ExternalAudioStreamRequest_AudioStreamPrepare{
+			AudioStreamPrepare: &vectorpb.ExternalAudioStreamPrepare{
+				AudioFrameRate: 16000,
+				AudioVolume:    100,
+			},
+		},
+	})
+	if err != nil {
+		logger.Println("AudioStreamPrepare send error:", err)
+		return err
+	}
+
+	var chunksToDetermineLength []byte
+	for _, chunk := range audioChunks {
+		chunksToDetermineLength = append(chunksToDetermineLength, chunk...)
+	}
+	go func() {
+		for _, chunk := range audioChunks {
+			vclient.Send(&vectorpb.ExternalAudioStreamRequest{
+				AudioRequestType: &vectorpb.ExternalAudioStreamRequest_AudioStreamChunk{
+					AudioStreamChunk: &vectorpb.ExternalAudioStreamChunk{
+						AudioChunkSizeBytes: 1024,
+						AudioChunkSamples:   chunk,
+					},
+				},
+			})
+			time.Sleep(time.Millisecond * 25)
+		}
+		vclient.Send(&vectorpb.ExternalAudioStreamRequest{
+			AudioRequestType: &vectorpb.ExternalAudioStreamRequest_AudioStreamComplete{
+				AudioStreamComplete: &vectorpb.ExternalAudioStreamComplete{},
+			},
+		})
+	}()
+	time.Sleep(pcmLength(chunksToDetermineLength) + (time.Millisecond * 50))
+	return nil
+}
+
+func DoSayText_Google(robot *vector.Vector, input string, apiKey string, voice string) error {
+	if strings.TrimSpace(input) == "" {
+		return nil
+	}
+	if apiKey == "" {
+		return errors.New("Google TTS requires an API key")
+	}
+
+	lang := vars.APIConfig.STT.Language
+	if lang == "" {
+		lang = "tr-TR"
+	}
+	if voice == "" {
+		if lang == "tr-TR" {
+			voice = "tr-TR-Standard-A"
+		} else {
+			voice = lang + "-Standard-A"
+		}
+	}
+
+	reqBody := googleTTSRequest{}
+	reqBody.Input.Text = input
+	reqBody.Voice.LanguageCode = lang
+	reqBody.Voice.Name = voice
+	reqBody.AudioConfig.AudioEncoding = "LINEAR16"
+	reqBody.AudioConfig.SampleRateHertz = 16000
+	reqBody.AudioConfig.SpeakingRate = 1.0
+
+	jsonBytes, err := json.Marshal(reqBody)
+	if err != nil {
+		return err
+	}
+
+	url := "https://texttospeech.googleapis.com/v1/text:synthesize?key=" + apiKey
+	httpReq, err := http.NewRequestWithContext(context.Background(), "POST", url, bytes.NewBuffer(jsonBytes))
+	if err != nil {
+		return err
+	}
+	httpReq.Header.Set("Content-Type", "application/json")
+
+	client := &http.Client{Timeout: 10 * time.Second}
+	resp, err := client.Do(httpReq)
+	if err != nil {
+		logger.Println("Google TTS HTTP error:", err)
+		return err
+	}
+	defer resp.Body.Close()
+
+	respBytes, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return err
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		logger.Println("Google TTS API returned non-200 status:", resp.StatusCode, string(respBytes))
+		return fmt.Errorf("google tts error status %d", resp.StatusCode)
+	}
+
+	var ttsResp googleTTSResponse
+	err = json.Unmarshal(respBytes, &ttsResp)
+	if err != nil {
+		return err
+	}
+
+	if ttsResp.Error != nil {
+		return fmt.Errorf("google tts api error: %s", ttsResp.Error.Message)
+	}
+
+	pcmBytes, err := base64.StdEncoding.DecodeString(ttsResp.AudioContent)
+	if err != nil {
+		return err
+	}
+
+	boostedBytes := increaseVolume(pcmBytes, 1.8)
+
+	var audioChunks [][]byte
+	for len(boostedBytes) > 0 {
+		if len(boostedBytes) < 1024 {
+			chunk := make([]byte, 1024)
+			copy(chunk, boostedBytes)
+			audioChunks = append(audioChunks, chunk)
+			break
+		}
+		audioChunks = append(audioChunks, boostedBytes[:1024])
+		boostedBytes = boostedBytes[1024:]
+	}
+
+	return StreamAudioChunksToVector(robot, audioChunks)
+}
+
+func DoSayText(input string, robot *vector.Vector) error {
+	// just before vector speaks
+	removeSpecialCharacters(input)
+	if strings.TrimSpace(input) == "" {
+		return nil
+	}
+
+	ttsProvider := vars.APIConfig.Knowledge.TTSProvider
+	isTurkish := vars.APIConfig.STT.Language == "tr-TR"
+	isNonEnglish := vars.APIConfig.STT.Language != "en-US"
+
+	// Auto-detect provider if not explicitly chosen
+	if ttsProvider == "" {
+		if vars.APIConfig.Knowledge.Provider == "gemini" && (isTurkish || vars.APIConfig.Knowledge.Key != "") {
+			ttsProvider = "google"
+		} else if vars.APIConfig.Knowledge.Provider == "openai" {
+			ttsProvider = "openai"
+		}
+	}
+
+	// 1. Google Cloud Text-to-Speech (using Gemini API Key, optimal for Turkish)
+	if ttsProvider == "google" || (isTurkish && vars.APIConfig.Knowledge.Provider == "gemini") {
+		apiKey := vars.APIConfig.Knowledge.Key
+		voice := vars.APIConfig.Knowledge.TTSVoice
+		if voice == "" && isTurkish {
+			voice = "tr-TR-Standard-A"
+		}
+		err := DoSayText_Google(robot, input, apiKey, voice)
+		if err == nil {
+			return nil
+		}
+		logger.Println("Google TTS failed, falling back to next provider:", err)
+	}
+
+	// 2. OpenAI TTS or Custom Endpoint
+	if ttsProvider == "openai" || ttsProvider == "custom" || ((isNonEnglish && vars.APIConfig.Knowledge.Provider == "openai") || vars.APIConfig.Knowledge.OpenAIVoiceWithEnglish) {
+		err := DoSayText_OpenAI(robot, input)
+		if err == nil {
+			return nil
+		}
+		logger.Println("OpenAI TTS failed, falling back to hardware voice:", err)
+	}
+
+	// 3. Hardware Voice Fallback
 	robot.Conn.SayText(
 		context.Background(),
 		&vectorpb.SayTextRequest{
@@ -326,18 +525,22 @@ func getOpenAIVoice(voice string) openai.SpeechVoice {
 	return voiceMap[voice]
 }
 
-// TODO
 func DoSayText_OpenAI(robot *vector.Vector, input string) error {
 	if strings.TrimSpace(input) == "" {
 		return nil
 	}
 	openaiVoice := getOpenAIVoice(vars.APIConfig.Knowledge.OpenAIVoice)
-	// if vars.APIConfig.Knowledge.OpenAIVoice == "" {
-	// 	openaiVoice = openai.VoiceFable
-	// } else {
-	// 	openaiVoice = getOpenAIVoice(vars.APIConfig.Knowledge.OpenAIPrompt)
-	// }
-	oc := openai.NewClient(vars.APIConfig.Knowledge.Key)
+	var clientConfig openai.ClientConfig
+	if vars.APIConfig.Knowledge.TTSEndpoint != "" {
+		clientConfig = openai.DefaultConfig(vars.APIConfig.Knowledge.Key)
+		clientConfig.BaseURL = vars.APIConfig.Knowledge.TTSEndpoint
+	} else if vars.APIConfig.Knowledge.Endpoint != "" && vars.APIConfig.Knowledge.Provider == "custom" {
+		clientConfig = openai.DefaultConfig(vars.APIConfig.Knowledge.Key)
+		clientConfig.BaseURL = vars.APIConfig.Knowledge.Endpoint
+	} else {
+		clientConfig = openai.DefaultConfig(vars.APIConfig.Knowledge.Key)
+	}
+	oc := openai.NewClientWithConfig(clientConfig)
 	resp, err := oc.CreateSpeech(context.Background(), openai.CreateSpeechRequest{
 		Model:          openai.TTSModel1,
 		Input:          input,
@@ -345,49 +548,15 @@ func DoSayText_OpenAI(robot *vector.Vector, input string) error {
 		ResponseFormat: openai.SpeechResponseFormatPcm,
 	})
 	if err != nil {
-		logger.Println(err)
+		logger.Println("OpenAI CreateSpeech error:", err)
 		return err
 	}
-	speechBytes, _ := io.ReadAll(resp)
-	vclient, err := robot.Conn.ExternalAudioStreamPlayback(context.Background())
+	speechBytes, err := io.ReadAll(resp)
 	if err != nil {
 		return err
 	}
-	vclient.Send(&vectorpb.ExternalAudioStreamRequest{
-		AudioRequestType: &vectorpb.ExternalAudioStreamRequest_AudioStreamPrepare{
-			AudioStreamPrepare: &vectorpb.ExternalAudioStreamPrepare{
-				AudioFrameRate: 16000,
-				AudioVolume:    100,
-			},
-		},
-	})
-	//time.Sleep(time.Millisecond * 30)
 	audioChunks := downsample24kTo16k(speechBytes)
-
-	var chunksToDetermineLength []byte
-	for _, chunk := range audioChunks {
-		chunksToDetermineLength = append(chunksToDetermineLength, chunk...)
-	}
-	go func() {
-		for _, chunk := range audioChunks {
-			vclient.Send(&vectorpb.ExternalAudioStreamRequest{
-				AudioRequestType: &vectorpb.ExternalAudioStreamRequest_AudioStreamChunk{
-					AudioStreamChunk: &vectorpb.ExternalAudioStreamChunk{
-						AudioChunkSizeBytes: 1024,
-						AudioChunkSamples:   chunk,
-					},
-				},
-			})
-			time.Sleep(time.Millisecond * 25)
-		}
-		vclient.Send(&vectorpb.ExternalAudioStreamRequest{
-			AudioRequestType: &vectorpb.ExternalAudioStreamRequest_AudioStreamComplete{
-				AudioStreamComplete: &vectorpb.ExternalAudioStreamComplete{},
-			},
-		})
-	}()
-	time.Sleep(pcmLength(chunksToDetermineLength) + (time.Millisecond * 50))
-	return nil
+	return StreamAudioChunksToVector(robot, audioChunks)
 }
 
 func DoGetImage(msgs []openai.ChatCompletionMessage, param string, robot *vector.Vector, stopStop chan bool) {
