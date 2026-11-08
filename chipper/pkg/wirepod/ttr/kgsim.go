@@ -158,6 +158,12 @@ func CreateAIReq(transcribedText, esn string, gpt3tryagain, isKG bool) openai.Ch
 			model = m
 		}
 		logger.Println("Using " + model)
+	} else if vars.APIConfig.Knowledge.Provider == "gemini" {
+		model = "gemini-1.5-flash"
+		if m := strings.TrimSpace(vars.APIConfig.Knowledge.Model); m != "" {
+			model = m
+		}
+		logger.Println("Using Gemini " + model)
 	} else {
 		logger.Println("Using " + vars.APIConfig.Knowledge.Model)
 		model = vars.APIConfig.Knowledge.Model
@@ -254,6 +260,14 @@ func StreamingKGSim(req interface{}, esn string, transcribedText string, isKG bo
 	case "custom":
 		conf := openai.DefaultConfig(vars.APIConfig.Knowledge.Key)
 		conf.BaseURL = vars.APIConfig.Knowledge.Endpoint
+		c = openai.NewClientWithConfig(conf)
+	case "gemini":
+		if vars.APIConfig.Knowledge.Model == "" {
+			vars.APIConfig.Knowledge.Model = "gemini-1.5-flash"
+			vars.WriteConfigToDisk()
+		}
+		conf := openai.DefaultConfig(vars.APIConfig.Knowledge.Key)
+		conf.BaseURL = "https://generativelanguage.googleapis.com/v1beta/openai/"
 		c = openai.NewClientWithConfig(conf)
 	case "openai":
 		c = openai.NewClient(vars.APIConfig.Knowledge.Key)

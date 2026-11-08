@@ -246,6 +246,7 @@ function checkKG() {
   const provider = getE("kgProvider").value;
   const elements = [
     "houndifyInput",
+    "geminiInput",
     "togetherInput",
     "customAIInput",
     "intentGraphInput",
@@ -258,7 +259,12 @@ function checkKG() {
   elements.forEach((el) => (getE(el).style.display = "none"));
 
   if (provider) {
-    if (provider === "houndify") {
+    if (provider === "gemini") {
+      getE("intentGraphInput").style.display = "block";
+      getE("geminiInput").style.display = "block";
+      getE("saveChatInput").style.display = "block";
+      getE("llmCommandInput").style.display = "block";
+    } else if (provider === "houndify") {
       getE("houndifyInput").style.display = "block";
       getE("intentGraphInput").style.display = "block";
     } else if (provider === "openai") {
@@ -298,7 +304,14 @@ function sendKGAPIKey() {
     commands_enable: false,
     endpoint: "",
   };
-  if (provider === "openai") {
+  if (provider === "gemini") {
+    data.key = getE("geminiKey").value;
+    data.model = getE("geminiModel").value || "gemini-1.5-flash";
+    data.openai_prompt = getE("geminiAIPrompt").value;
+    data.intentgraph = getE("intentyes").checked;
+    data.save_chat = getE("saveChatYes").checked;
+    data.commands_enable = getE("commandYes").checked;
+  } else if (provider === "openai") {
     data.key = getE("openaiKey").value;
     data.openai_prompt = getE("openAIPrompt").value;
     data.intentgraph = getE("intentyes").checked
@@ -358,7 +371,14 @@ function updateKGAPI() {
     .then((response) => response.json())
     .then((data) => {
       getE("kgProvider").value = data.provider;
-      if (data.provider === "openai") {
+      if (data.provider === "gemini") {
+        getE("geminiKey").value = data.key;
+        getE("geminiModel").value = data.model;
+        getE("geminiAIPrompt").value = data.openai_prompt;
+        getE("commandYes").checked = data.commands_enable;
+        getE("intentyes").checked = data.intentgraph;
+        getE("saveChatYes").checked = data.save_chat;
+      } else if (data.provider === "openai") {
         getE("openaiKey").value = data.key;
         getE("openAIPrompt").value = data.openai_prompt;
         getE("openaiVoice").value = data.openai_voice;

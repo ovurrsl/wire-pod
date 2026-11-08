@@ -477,6 +477,14 @@ func DoGetImage(msgs []openai.ChatCompletionMessage, param string, robot *vector
 		c = openai.NewClientWithConfig(conf)
 	case "openai":
 		c = openai.NewClient(vars.APIConfig.Knowledge.Key)
+	case "gemini":
+		if vars.APIConfig.Knowledge.Model == "" {
+			vars.APIConfig.Knowledge.Model = "gemini-1.5-flash"
+			vars.WriteConfigToDisk()
+		}
+		conf := openai.DefaultConfig(vars.APIConfig.Knowledge.Key)
+		conf.BaseURL = "https://generativelanguage.googleapis.com/v1beta/openai/"
+		c = openai.NewClientWithConfig(conf)
 	case "custom":
 		conf := openai.DefaultConfig(vars.APIConfig.Knowledge.Key)
 		conf.BaseURL = vars.APIConfig.Knowledge.Endpoint
@@ -497,6 +505,12 @@ func DoGetImage(msgs []openai.ChatCompletionMessage, param string, robot *vector
 	if vars.APIConfig.Knowledge.Provider == "openai" {
 		aireq.Model = openai.GPT4oMini
 		logger.Println("Using " + aireq.Model)
+	} else if vars.APIConfig.Knowledge.Provider == "gemini" {
+		if vars.APIConfig.Knowledge.Model == "" {
+			vars.APIConfig.Knowledge.Model = "gemini-1.5-flash"
+		}
+		aireq.Model = vars.APIConfig.Knowledge.Model
+		logger.Println("Using Gemini " + aireq.Model)
 	} else {
 		logger.Println("Using " + vars.APIConfig.Knowledge.Model)
 		aireq.Model = vars.APIConfig.Knowledge.Model

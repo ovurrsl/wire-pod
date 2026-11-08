@@ -81,11 +81,23 @@
             <label for="kgProvider">Knowledge Graph API Provider:</label>
             <select name="kgProvider" id="kgProvider" form="kgAPIAddForm" onchange="checkKG()">
               <option value="" selected>None</option>
+              <option value="gemini">Google Gemini (Free Tier)</option>
               <option value="openai">OpenAI</option>
               <option value="houndify">Houndify</option>
               <option value="together">Together</option>
               <option value="custom">Custom</option>
             </select>
+            <span id="geminiInput" style="display: none">
+              <small class="desc">To use Google Gemini, get a free API key at
+                <a href="https://aistudio.google.com/app/apikey" target="_blank">Google AI Studio</a>.</small><br />
+              <label for="geminiKey">Gemini API Key:</label>
+              <input type="password" name="geminiKey" id="geminiKey" autocomplete="off" /><br />
+              <label for="geminiModel">Gemini Model: <small class="desc">(leave blank for default gemini-1.5-flash)</small></label>
+              <input type="text" name="geminiModel" id="geminiModel" placeholder="gemini-1.5-flash" /><br />
+              <label for="geminiAIPrompt">System Prompt <small class="desc">(leave blank for default):</small></label><br />
+              <small><label class="desc" for="geminiAIPrompt">(default: "You are a helpful, animated robot called Vector. Keep the response concise yet informative.")</label></small>
+              <input type="text" name="geminiAIPrompt" id="geminiAIPrompt" /><br />
+            </span>
             <span id="houndifyInput" style="display: none">
               <small class="desc">To use Houndify, create an account at
                 <a href="https://www.houndify.com/signup">houndify.com</a>,
