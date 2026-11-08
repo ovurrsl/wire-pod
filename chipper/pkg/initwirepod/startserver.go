@@ -184,6 +184,7 @@ func StartChipper() {
 		listenerOne, err = tls.Listen("tcp", ":"+vars.APIConfig.Server.Port, &tls.Config{
 			Certificates: []tls.Certificate{cert},
 			CipherSuites: nil,
+			NextProtos:   []string{"h2", "http/1.1"},
 		})
 		if err != nil {
 			fmt.Println(err)
@@ -201,6 +202,7 @@ func StartChipper() {
 		listenerTwo, err = tls.Listen("tcp", ":8084", &tls.Config{
 			Certificates: []tls.Certificate{cert},
 			CipherSuites: nil,
+			NextProtos:   []string{"h2", "http/1.1"},
 		})
 		if err != nil {
 			fmt.Println(err)
