@@ -1,0 +1,11 @@
+name: Wire-Pod Vector Server
+icon: 🤖
+description: Dedicated Escape Pod & Voice Server for Anki Vector 2.0 on Arduino UNO Q
+ports:
+  - 80
+  - 443
+  - 7000
+  - 8080
+  - 8084
+bricks:
+  - arduino:web_ui
